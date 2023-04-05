@@ -27,12 +27,12 @@ def clean_data():
     df['idea_negocio'] = df['idea_negocio'].str.replace('_', ' ')
     df['idea_negocio'] = df['idea_negocio'].str.strip()
     #Barrio
-    df['barrio'] = df['barrio'].apply(lambda x: x.lower().strip())
-    df['barrio'] = df['barrio'].str.replace('-', ' ')
-    df['barrio'] = df['barrio'].str.replace('_', ' ')
-    df['barrio'] = df['barrio'].str.replace('bel¿n', 'belen')
-    df['barrio'] = df['barrio'].str.replace('antonio nari¿o', 'antonio nariño')
-    df['barrio'] = df['barrio'].str.strip()
+    df['barrio'] = df['barrio'].astype(str)
+    df['barrio'] = df['barrio'].apply(str.lower)
+    df.barrio = df.barrio.str.replace("_", " ", regex=False)
+    df.barrio = df.barrio.str.replace("-", " ", regex=False)
+    df.barrio = df.barrio.str.replace(".", " ", regex=False)
+    df.barrio = df['barrio'].str.normalize('NFKD').str.encode('ascii', errors='ignore').str.decode('utf-8')
     #Fecha
     df['fecha_de_beneficio'] = pd.to_datetime(df['fecha_de_beneficio'], dayfirst=True)
     #Monto del crredito
